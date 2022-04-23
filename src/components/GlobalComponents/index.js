@@ -1,7 +1,6 @@
 import Container from "./Container";
-import Form from "./Form";
-import FormContainer from "./FormContainer";
-import Input from "./Input";
+import ThinButton from "./ThinButton";
+import Header from "./Header";
+import Icon from "./Icon";
 
-
-export { Container, FormContainer, Form, Input };
+export { Container, Header, ThinButton, Icon };
