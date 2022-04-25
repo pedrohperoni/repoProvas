@@ -4,11 +4,12 @@ import {
   Input,
   Button,
 } from "../../components/FormComponents";
-import { LoginContainer } from "../../components/LoginComponents/index";
+
 import {
   Header,
   ThinButton,
   Icon,
+  PageContainer
 } from "../../components/GlobalComponents/index";
 import github from "../../assets/logo-github.svg";
 import { useState } from "react";
@@ -47,10 +48,12 @@ export default function Login() {
     });
   }
 
+
+
   return (
     <>
-      <Header enabled={true} />
-      <LoginContainer>
+      <Header/>
+      <PageContainer>
         <FormContainer>
           <h1>Login</h1>
           <Form onSubmit={handleSubmit}>
@@ -74,7 +77,7 @@ export default function Login() {
             <Button
               onClick={handleSubmit}
               enabled={!loginError}
-              type="button"
+              type="submit"
               color="dark"
             >
               Login
@@ -91,7 +94,7 @@ export default function Login() {
             </ThinButton>
           </Form>
         </FormContainer>
-      </LoginContainer>
+      </PageContainer>
     </>
   );
 }

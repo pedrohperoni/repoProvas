@@ -1,14 +1,13 @@
 import styled from "styled-components";
 
-const LoginContainer = styled.div`
+const PageContainer = styled.div`
   width: 100vw;
-  height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: space-around;
   flex-direction: column;
   background-color: #000000;
   color: #fff;
+  padding: 100px 0;
 `;
 
-export default LoginContainer;
+export default PageContainer;

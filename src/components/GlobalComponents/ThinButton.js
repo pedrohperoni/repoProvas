@@ -19,13 +19,14 @@ const ThinButton = styled.button`
    text-transform: uppercase;
    transition-duration: 0.3s;
    transition-timing-function:easeOut;
+   cursor: not-allowed;
+
    
-   &:hover{
+   ${'' /* &:hover{
       background-color:#fff;
       color: #000;
       border: 1px solid #000;
-      cursor: pointer;
-   }
+   } */}
 `
 
 export default ThinButton

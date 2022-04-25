@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const FormWarning = styled.span`
-  color: #FF005C;
+  color: #FF1818;
   font-size: 11px;
   font-weight: 600;
   text-decoration: none;

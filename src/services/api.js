@@ -11,7 +11,7 @@ function createConfig(token) {
 }
 
 async function createUser(user) {
-	return await axios.post(`${BASE_URL}/users`, user);
+	return await axios.post(`${BASE_URL}/users/create`, user);
 }
 
 async function login(data) {
@@ -19,10 +19,25 @@ async function login(data) {
    return token;
  }
 
+ async function getTestsByDiscipline(token){
+    const config = createConfig(token)
+    const posts = await axios.get(`${BASE_URL}/tests/disciplines`, config)
+    return posts
+ }
+
+
+ async function getTestsByTeacher(token){
+   const config = createConfig(token)
+   const posts = await axios.get(`${BASE_URL}/tests/teachers`, config)
+   return posts
+}
+
 
 const api = {
 	createUser,
 	login,
+   getTestsByDiscipline,
+   getTestsByTeacher
 } 
 
 export default api;

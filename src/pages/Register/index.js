@@ -3,12 +3,13 @@ import {
   Form,
   Input,
   Button,
+
 } from "../../components/FormComponents";
-import { LoginContainer } from "../../components/LoginComponents/index";
 import {
   Header,
   ThinButton,
   Icon,
+  PageContainer
 } from "../../components/GlobalComponents/index";
 import github from "../../assets/logo-github.svg";
 import { Link } from "react-router-dom";
@@ -45,16 +46,16 @@ export default function Register() {
     });
     promise.catch((error) => {
       console.log(error.response);
-      alert("erro no submit do form");
+      alert(`Erro ${error.response.status} ${error.response.statusText}`);
     });
   }
 
   return (
     <>
       <Header />
-      <LoginContainer>
+      <PageContainer>
         <FormContainer>
-          <h1>Registrar</h1>
+          <h1>cadastro</h1>
           <Form onSubmit={handleSubmit}>
             <Input
               type="email"
@@ -117,7 +118,7 @@ export default function Register() {
           </Form>
         
         </FormContainer>
-      </LoginContainer>
+      </PageContainer>
     </>
   );
 }
