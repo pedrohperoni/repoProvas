@@ -15,6 +15,7 @@ import {
   AccordionContainer,
   AccordionPanel,
   InnerAccordion,
+  EmptyMessage,
 } from "../../components/HomeComponents/index.js";
 
 import SearchIcon from "../../assets/search-outline.svg";
@@ -23,6 +24,7 @@ import DownChevron from "../../assets/chevron-down-outline.svg";
 import { useEffect, useState } from "react";
 import api from "../../services/api.js";
 import useAuth from "../../hooks/useAuth.js";
+import { useNavigate } from "react-router";
 
 export default function Home() {
   const [selected, setSelected] = useState(true);
@@ -31,7 +33,13 @@ export default function Home() {
   const [activeAccordions, setActiveAccordions] = useState([]);
   const { auth } = useAuth();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (!auth) {
+      navigate("/");
+    }
+
     const DisciplinesPromise = api.getTestsByDiscipline(auth?.token);
     DisciplinesPromise.then((response) => {
       setDisciplinesTests(response.data);
@@ -53,6 +61,17 @@ export default function Home() {
     setSelected(!selected);
     setActiveAccordions([]);
     console.log(teachersTests);
+  }
+
+  function handleAccordionSelection(id) {
+   const list = [...activeAccordions]
+   if(list.includes(id)){
+      const index = list.indexOf(id);
+      (index>= 0 && list.splice(index,1))
+      setActiveAccordions(list);
+      return
+   } 
+   setActiveAccordions([...list, id])
   }
 
   return (
@@ -83,64 +102,61 @@ export default function Home() {
 
           <ResultsContainer>
             <AccordionContainer>
-              {selected
-                ? disciplinesTests.map((term, index) => (
-                    <Accordion
-                      key={index}
-                      onClick={() => console.log(document)}
-                    >
-                      <div>
-                        <h1>{term.number} Período</h1>
-                        <img src={DownChevron} alt="selection" />
-                      </div>
-                      {term.disciplines.map((discipline, i) => (
-                        <InnerAccordion
-                          active={
-                            activeAccordions.includes(index) ? false : true
-                          }
-                          key={i}
-                        >
+              {selected && disciplinesTests.length > 0 ? (
+                disciplinesTests.map((term, index) => (
+                  <Accordion key={index} onClick={() => console.log(document)}>
+                    <div>
+                      <h1>{term.number} Período</h1>
+                      <img src={DownChevron} alt="selection" />
+                    </div>
+                    {term.disciplines.map((discipline, i) => (
+                      <InnerAccordion active={false} key={i}>
+                        <div>
+                          <h2>{discipline.name}</h2>
+                          <img src={UpChevron} alt="selection" />
+                        </div>
+
+                        {discipline.teachersDisciplines.map((tests, e) => (
+                          <AccordionPanel active={false} key={e}>
+                            {tests.tests.map((test, j) => (
+                              <span key={j}>
+                                <p>{test.categories.name}</p>
+                                <span>{test.name} </span>
+                                <span>({tests.teachers.name})</span>
+                              </span>
+                            ))}
+                          </AccordionPanel>
+                        ))}
+                      </InnerAccordion>
+                    ))}
+                  </Accordion>
+                ))
+              ) : !selected && teachersTests.length > 0 ? (
+
+               teachersTests.map((teacher) => (
+                  <Accordion key={teacher.teacher} onClick={()=>{handleAccordionSelection(teacher.teacher)}} >
+                    <div>
+                      <h1>{teacher.teacher}</h1>
+                      <img src={activeAccordions.includes(teacher.teacher)? UpChevron : DownChevron} alt="selection" />
+                    </div>
+                     {teacher.teacherTests.map(test => (
+                        <AccordionPanel active={activeAccordions.includes(teacher.teacher)} key={test.id}>
+                        <p>{test.category}</p>
                           <div>
-                            <h2>{discipline.name}</h2>
-                            <img src={UpChevron} alt="selection" />
+                            <span>{test.test} </span>
+                            <span>
+                              ({test.discipline})
+                            </span>
                           </div>
 
-                          {discipline.teachersDisciplines.map((tests, e) => (
-                            <AccordionPanel active={true} key={e}>
-                              {tests.tests.map((test, j) => (
-                                <span key={j}>
-                                  <p>{test.categories.name}</p>
-                                  <span>{test.name} </span>
-                                  <span>({tests.teachers.name})</span>
-                                </span>
-                              ))}
-                            </AccordionPanel>
-                          ))}
-                        </InnerAccordion>
-                      ))}
-                    </Accordion>
-                  ))
-                : teachersTests.map((teacher, index) => (
-                    <Accordion key={index}>
-                      <div>
-                        <h1>{teacher.teacher}</h1>
-                        <img src={DownChevron} alt="selection" />
-                      </div>
-                      {teacher.categories.map((categories, index) => (
-                        <AccordionPanel key={index} active={true}>
-                          <p>{categories.name}</p>
-                          {categories.tests.map((tests, index) => (
-                            <div key={index}>
-                              <span>{tests.name} </span>
-                              <span>
-                                ({tests.teachersDisciplines.disciplines.name})
-                              </span>
-                            </div>
-                          ))}
-                        </AccordionPanel>
-                      ))}
-                    </Accordion>
-                  ))}
+                      </AccordionPanel>
+                     ))}
+
+                  </Accordion>
+                ))
+              ) : (
+                <EmptyMessage>Nenhuma prova no sistema!</EmptyMessage>
+              )}
             </AccordionContainer>
           </ResultsContainer>
         </MainSection>

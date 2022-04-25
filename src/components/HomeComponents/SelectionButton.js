@@ -12,7 +12,7 @@ const SelectionButton = styled.button`
    font-size: 15px;
    font-weight: 400;
    line-height:22.5px;
-   width: 20%;
+   width: 25%;
    height: 36px;
    padding: 6px 23px;
    cursor: ${(props) => (props.disabled? "not-allowed" : "pointer")};

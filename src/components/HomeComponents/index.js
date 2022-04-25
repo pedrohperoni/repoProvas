@@ -8,6 +8,7 @@ import Accordion from "./Accordion.js";
 import AccordionContainer from "./AccordionContainer.js";
 import AccordionPanel from "./AccordionPanel.js";
 import InnerAccordion from "./InnerAccordion.js";
+import EmptyMessage from "./EmptyMessage.js";
 
 export {
   SearchBar,
@@ -19,5 +20,6 @@ export {
   Accordion,
   AccordionContainer,
   AccordionPanel,
-  InnerAccordion
+  InnerAccordion,
+  EmptyMessage
 };
