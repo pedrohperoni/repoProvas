@@ -31,6 +31,7 @@ export default function Home() {
   const [disciplinesTests, setDisciplinesTests] = useState([]);
   const [teachersTests, setTeachersTests] = useState([]);
   const [activeAccordions, setActiveAccordions] = useState([]);
+  const [activeInnerAccordions, setActiveInnerAccordions] = useState([]);
   const { auth } = useAuth();
 
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ export default function Home() {
   function handleButtonSelection() {
     setSelected(!selected);
     setActiveAccordions([]);
-    console.log(teachersTests);
+    console.log(disciplinesTests);
   }
 
   function handleAccordionSelection(id) {
@@ -73,6 +74,22 @@ export default function Home() {
    } 
    setActiveAccordions([...list, id])
   }
+
+  function handleInnerAccordionSelection(id, e) {
+     e.stopPropagation()
+   const list = [...activeInnerAccordions]
+   if(list.includes(id)){
+      const index = list.indexOf(id);
+      (index>= 0 && list.splice(index,1))
+      setActiveInnerAccordions(list);
+      return
+   } 
+   setActiveInnerAccordions([...list, id])
+  }
+
+
+  console.log(activeAccordions, activeInnerAccordions)
+
 
   return (
     <>
@@ -104,20 +121,20 @@ export default function Home() {
             <AccordionContainer>
               {selected && disciplinesTests.length > 0 ? (
                 disciplinesTests.map((term, index) => (
-                  <Accordion key={index} onClick={() => console.log(document)}>
+                  <Accordion key={`P${index}`} onClick={() => handleAccordionSelection(`P${index}`)}>
                     <div>
                       <h1>{term.number} Período</h1>
-                      <img src={DownChevron} alt="selection" />
+                      <img src={activeAccordions.includes(`P${index}`) ? UpChevron : DownChevron} alt="selection" />
                     </div>
                     {term.disciplines.map((discipline, i) => (
-                      <InnerAccordion active={false} key={i}>
+                      <InnerAccordion active={activeAccordions.includes(`P${index}`)} key={i} onClick={(e)=>{handleInnerAccordionSelection(`D${i}`,e)}}>
                         <div>
                           <h2>{discipline.name}</h2>
-                          <img src={UpChevron} alt="selection" />
+                          <img src={activeInnerAccordions.includes(`D${i}`) ? UpChevron : DownChevron} alt="selection" />
                         </div>
 
                         {discipline.teachersDisciplines.map((tests, e) => (
-                          <AccordionPanel active={false} key={e}>
+                          <AccordionPanel active={activeInnerAccordions.includes(`D${i}`)} key={e}>
                             {tests.tests.map((test, j) => (
                               <span key={j}>
                                 <p>{test.categories.name}</p>
@@ -140,6 +157,7 @@ export default function Home() {
                       <img src={activeAccordions.includes(teacher.teacher)? UpChevron : DownChevron} alt="selection" />
                     </div>
                      {teacher.teacherTests.map(test => (
+ 
                         <AccordionPanel active={activeAccordions.includes(teacher.teacher)} key={test.id}>
                         <p>{test.category}</p>
                           <div>
