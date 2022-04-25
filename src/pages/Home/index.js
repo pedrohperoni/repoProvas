@@ -52,7 +52,7 @@ export default function Home() {
   function handleButtonSelection() {
     setSelected(!selected);
     setActiveAccordions([]);
-    console.log(disciplinesTests);
+    console.log(teachersTests);
   }
 
   return (
@@ -83,48 +83,64 @@ export default function Home() {
 
           <ResultsContainer>
             <AccordionContainer>
-              {disciplinesTests.map((term, index) => (
-                <Accordion key={index}>
-                  <div>
-                    <h1>{term.number} Período</h1>
-                    <img src={DownChevron} alt="selection" />
-                  </div>
-                  {term.disciplines.map((discipline, index) => (
-                    <InnerAccordion active={true} key={index}>
+              {selected
+                ? disciplinesTests.map((term, index) => (
+                    <Accordion
+                      key={index}
+                      onClick={() => console.log(document)}
+                    >
                       <div>
-                        <h2>{discipline.name}</h2>
-                        <img src={UpChevron} alt="selection" />
+                        <h1>{term.number} Período</h1>
+                        <img src={DownChevron} alt="selection" />
                       </div>
+                      {term.disciplines.map((discipline, i) => (
+                        <InnerAccordion
+                          active={
+                            activeAccordions.includes(index) ? false : true
+                          }
+                          key={i}
+                        >
+                          <div>
+                            <h2>{discipline.name}</h2>
+                            <img src={UpChevron} alt="selection" />
+                          </div>
 
-                      {discipline.teachersDisciplines.map((tests, index) => (
-                        <AccordionPanel active={true} key={index}>
-                          {tests.tests.map((test, index) => (
-                            <span key={index}>
-                              <p>{test.categories.name}</p>
-                              <span>{test.name} </span>
-                              <span>({tests.teachers.name})</span>
-                            </span>
+                          {discipline.teachersDisciplines.map((tests, e) => (
+                            <AccordionPanel active={true} key={e}>
+                              {tests.tests.map((test, j) => (
+                                <span key={j}>
+                                  <p>{test.categories.name}</p>
+                                  <span>{test.name} </span>
+                                  <span>({tests.teachers.name})</span>
+                                </span>
+                              ))}
+                            </AccordionPanel>
+                          ))}
+                        </InnerAccordion>
+                      ))}
+                    </Accordion>
+                  ))
+                : teachersTests.map((teacher, index) => (
+                    <Accordion key={index}>
+                      <div>
+                        <h1>{teacher.teacher}</h1>
+                        <img src={DownChevron} alt="selection" />
+                      </div>
+                      {teacher.categories.map((categories, index) => (
+                        <AccordionPanel key={index} active={true}>
+                          <p>{categories.name}</p>
+                          {categories.tests.map((tests, index) => (
+                            <div key={index}>
+                              <span>{tests.name} </span>
+                              <span>
+                                ({tests.teachersDisciplines.disciplines.name})
+                              </span>
+                            </div>
                           ))}
                         </AccordionPanel>
                       ))}
-                    </InnerAccordion>
+                    </Accordion>
                   ))}
-                </Accordion>
-              ))}
-
-
-              {/* {teachersTests.map((teacher, index) => (
-                <Accordion key={index}>
-                  <div>
-                    <h1>{teacher.name}</h1>
-                    <img src={DownChevron} alt="selection" />
-                  </div>
-                  <AccordionPanel active={true}>
-                  </AccordionPanel>
-                </Accordion>
-              ))} */}
-
-
             </AccordionContainer>
           </ResultsContainer>
         </MainSection>
@@ -132,6 +148,3 @@ export default function Home() {
     </>
   );
 }
-
-
-

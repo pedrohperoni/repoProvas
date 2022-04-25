@@ -32,6 +32,10 @@ span{
    height: 40px;
    width: 40px;
 }
+
+div{
+   display: block;
+}
 `;
 
 export default AccordionPanel
