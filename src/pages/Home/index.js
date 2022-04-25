@@ -127,14 +127,14 @@ export default function Home() {
                       <img src={activeAccordions.includes(`P${index}`) ? UpChevron : DownChevron} alt="selection" />
                     </div>
                     {term.disciplines.map((discipline, i) => (
-                      <InnerAccordion active={activeAccordions.includes(`P${index}`)} key={i} onClick={(e)=>{handleInnerAccordionSelection(`D${i}`,e)}}>
+                      <InnerAccordion active={activeAccordions.includes(`P${index}`)} key={i} onClick={(e)=>{handleInnerAccordionSelection(`D${discipline.name+index}`,e)}}>
                         <div>
                           <h2>{discipline.name}</h2>
-                          <img src={activeInnerAccordions.includes(`D${i}`) ? UpChevron : DownChevron} alt="selection" />
+                          <img src={activeInnerAccordions.includes(`D${discipline.name+index}`) ? UpChevron : DownChevron} alt="selection" />
                         </div>
 
                         {discipline.teachersDisciplines.map((tests, e) => (
-                          <AccordionPanel active={activeInnerAccordions.includes(`D${i}`)} key={e}>
+                          <AccordionPanel active={activeInnerAccordions.includes(`D${discipline.name+index}`)} key={e}>
                             {tests.tests.map((test, j) => (
                               <span key={j}>
                                 <p>{test.categories.name}</p>

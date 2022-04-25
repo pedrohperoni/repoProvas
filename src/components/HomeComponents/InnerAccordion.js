@@ -3,7 +3,7 @@ import styled from "styled-components";
 const InnerAccordion = styled.section`
 width: 100%;
 color: #000;
-padding: 6px 16px;
+padding: 0px 15px;
 
 
 display: ${(props) => (props.active? "flex" : "none")};
@@ -15,9 +15,11 @@ cursor: pointer;
 transition-duration: 0.3s;
 transition-timing-function:easeOut;
 
+
 h2{
-   font-size: 18px;
+   font-size: 16px;
    font-weight: 400;
+   margin-left: 20px;
 }
 
 div{

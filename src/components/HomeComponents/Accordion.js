@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 const Accordion = styled.div`
 width: 100%;
-color: #000;
-padding: 6px 16px;
+background-color:#000;
+color: #fff;
 
 
 
@@ -17,9 +17,14 @@ cursor: pointer;
 transition-duration: 0.3s;
 transition-timing-function:easeOut;
 
+
+
 h1{
    font-size: 20px;
    font-weight: 600;
+   color: #fff;
+   margin: 0 16px;
+   line-height:60px;
 }
 
 div{
@@ -27,6 +32,7 @@ width: 100%;
 display: flex;
 align-items: center;
 justify-content: space-between;
+color: #fff;
 
 }
 
@@ -34,6 +40,7 @@ img{
    cursor: pointer;
    height: 40px;
    width: 40px;
+   margin: 0 16px;
 }
 
 

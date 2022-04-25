@@ -2,28 +2,30 @@ import styled from "styled-components";
 
 const AccordionPanel = styled.span`
    display: ${(props) => (props.active? "flex" : "none")};
-   width: 95%;
-   padding: 3px 11px;
-   margin-top: 5px;
+   width: 100%;
+   padding: 12px 20px;
 
    flex-direction: column;
    text-align: left;
-
+background-color:#fff;
 
    cursor: pointer;
    transition-duration: 0.3s;
    transition-timing-function:easeOut;
 
    p{
-   font-size: 16px;
+   font-size: 15px;
    font-weight: 400;
    margin: 5px 0;
+   color: #000;
+   
 }
 
 span{
    margin: 5px 0;
    font-size: 12px;
    font-weight: 300;
+   color: #000;
 }
 
 
