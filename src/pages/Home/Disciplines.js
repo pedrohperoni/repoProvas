@@ -13,12 +13,11 @@ import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth.js";
 import api from "../../services/api.js";
 
-export default function Disciplines() {
+export default function Disciplines(search) {
   const [disciplinesTests, setDisciplinesTests] = useState([]);
   const [activeAccordions, setActiveAccordions] = useState([]);
   const [activeInnerAccordions, setActiveInnerAccordions] = useState([]);
   const { auth } = useAuth();
-
 
   useEffect(() => {
     const DisciplinesPromise = api.getTestsByDiscipline(auth?.token);
@@ -28,6 +27,7 @@ export default function Disciplines() {
     DisciplinesPromise.catch((error) => {
       console.log(error);
     });
+    console.log(search)
   }, []);
 
   function handleAccordionSelection(id) {

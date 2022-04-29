@@ -13,6 +13,7 @@ import {
 } from "../../components/HomeComponents/index.js";
 
 import SearchIcon from "../../assets/search-outline.svg";
+import SearchIconDisabled from "../../assets/search-outline-disabled.svg";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth.js";
 import { useNavigate } from "react-router";
@@ -24,6 +25,7 @@ export default function Home() {
   const [disciplines, setDisciplines] = useState(true);
   const [teachers, setTeachers] = useState(false);
   const [createTest, setCreateTest] = useState(false);
+  const [search, setSearch] = useState("");
   const { auth } = useAuth();
 
   const navigate = useNavigate();
@@ -46,6 +48,8 @@ export default function Home() {
     setCreateTest(false);
   }
 
+
+
   return (
     <>
       <PageContainer>
@@ -56,8 +60,8 @@ export default function Home() {
             <p>Adicione uma prova</p>
           ) : (
             <>
-              <SearchBar placeholder="pesquise por disciplina"></SearchBar>
-              <img src={SearchIcon} alt="Search" />
+              <SearchBar type="search" placeholder="pesquise por disciplina" onChange={(e) => setSearch(e.target.value)}></SearchBar>
+              <img src={search===""? SearchIconDisabled : SearchIcon} alt="Search" onClick={()=>{console.log(search)}} />
             </>
           )}
         </HomeHeaderContainer>
@@ -93,7 +97,7 @@ export default function Home() {
           ) : teachers ? (
             <Teachers />
           ) : (
-            <Disciplines />
+            <Disciplines search={search} />
           )}
         </MainSection>
       </PageContainer>

@@ -10,6 +10,7 @@ const SearchBar = styled.input`
    padding: 0 20px;
    font-weight: 400;
    font-size: 18px;
+   padding-right: 50px;
    
    &:focus{
       outline: none;

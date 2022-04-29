@@ -14,6 +14,7 @@ p{
    font-size:25px;
    font-weight:600;
    text-transform:uppercase;
+
 }
 
 

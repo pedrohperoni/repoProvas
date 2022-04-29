@@ -21,6 +21,24 @@ const Form = styled.form`
       gap: 9px;
    }
 
+   select{
+   width: 90%;
+   height: 50px;
+   background-color:#FFCB31;
+   border-bottom: 1px solid #000;
+   border: 0;
+   color: #000;
+   font-weight: 400;
+   margin-bottom: 10px;
+   &:focus{
+      outline: none;
+   }
+   option{
+      font-size:15px;
+      background-color: #000;
+      color: #fff;
+   }
+   }
 `;
 
 
