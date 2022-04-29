@@ -6,32 +6,24 @@ import {
 
 import {
   SearchBar,
-  SearchBarContainer,
+  HomeHeaderContainer,
   MainSection,
   ButtonsContainer,
   SelectionButton,
-  ResultsContainer,
-  Accordion,
-  AccordionContainer,
-  AccordionPanel,
-  InnerAccordion,
-  EmptyMessage,
 } from "../../components/HomeComponents/index.js";
 
 import SearchIcon from "../../assets/search-outline.svg";
-import UpChevron from "../../assets/chevron-up-outline.svg";
-import DownChevron from "../../assets/chevron-down-outline.svg";
 import { useEffect, useState } from "react";
-import api from "../../services/api.js";
 import useAuth from "../../hooks/useAuth.js";
 import { useNavigate } from "react-router";
+import Disciplines from "./Disciplines.js";
+import Teachers from "./Teachers.js";
+import CreateTest from "./CreateTest.js";
 
 export default function Home() {
-  const [selected, setSelected] = useState(true);
-  const [disciplinesTests, setDisciplinesTests] = useState([]);
-  const [teachersTests, setTeachersTests] = useState([]);
-  const [activeAccordions, setActiveAccordions] = useState([]);
-  const [activeInnerAccordions, setActiveInnerAccordions] = useState([]);
+  const [disciplines, setDisciplines] = useState(true);
+  const [teachers, setTeachers] = useState(false);
+  const [createTest, setCreateTest] = useState(false);
   const { auth } = useAuth();
 
   const navigate = useNavigate();
@@ -40,143 +32,69 @@ export default function Home() {
     if (!auth) {
       navigate("/");
     }
-
-    const DisciplinesPromise = api.getTestsByDiscipline(auth?.token);
-    DisciplinesPromise.then((response) => {
-      setDisciplinesTests(response.data);
-    });
-    DisciplinesPromise.catch((error) => {
-      console.log(error);
-    });
-
-    const TeachersPromise = api.getTestsByTeacher(auth?.token);
-    TeachersPromise.then((response) => {
-      setTeachersTests(response.data);
-    });
-    TeachersPromise.catch((error) => {
-      console.log(error);
-    });
   }, []);
 
-  function handleButtonSelection() {
-    setSelected(!selected);
-    setActiveAccordions([]);
-    console.log(disciplinesTests);
+  function handleDisciplinesButton() {
+    setDisciplines(true);
+    setTeachers(false);
+    setCreateTest(false);
   }
 
-  function handleAccordionSelection(id) {
-   const list = [...activeAccordions]
-   if(list.includes(id)){
-      const index = list.indexOf(id);
-      (index>= 0 && list.splice(index,1))
-      setActiveAccordions(list);
-      return
-   } 
-   setActiveAccordions([...list, id])
+  function handleTeachersButton() {
+    setDisciplines(false);
+    setTeachers(true);
+    setCreateTest(false);
   }
-
-  function handleInnerAccordionSelection(id, e) {
-     e.stopPropagation()
-   const list = [...activeInnerAccordions]
-   if(list.includes(id)){
-      const index = list.indexOf(id);
-      (index>= 0 && list.splice(index,1))
-      setActiveInnerAccordions(list);
-      return
-   } 
-   setActiveInnerAccordions([...list, id])
-  }
-
-
-  console.log(activeAccordions, activeInnerAccordions)
-
 
   return (
     <>
       <PageContainer>
         <Header />
         <LogoutIcon />
-        <SearchBarContainer>
-          <SearchBar placeholder="pesquise por disciplina"></SearchBar>
-          <img src={SearchIcon} alt="Search" />
-        </SearchBarContainer>
+        <HomeHeaderContainer>
+          {createTest ? (
+            <p>Adicione uma prova</p>
+          ) : (
+            <>
+              <SearchBar placeholder="pesquise por disciplina"></SearchBar>
+              <img src={SearchIcon} alt="Search" />
+            </>
+          )}
+        </HomeHeaderContainer>
         <MainSection>
           <ButtonsContainer>
             <SelectionButton
-              onClick={handleButtonSelection}
-              selected={selected}
+              onClick={() => {
+                handleDisciplinesButton();
+              }}
+              selected={disciplines && !createTest}
             >
               disciplinas
             </SelectionButton>
             <SelectionButton
-              onClick={handleButtonSelection}
-              selected={!selected}
+              onClick={() => {
+                handleTeachersButton();
+              }}
+              selected={teachers && !createTest}
             >
               Instrutor
             </SelectionButton>
-            <SelectionButton disabled>Adicionar</SelectionButton>
+            <SelectionButton
+              onClick={() => {
+                setCreateTest(true);
+              }}
+            >
+              Adicionar
+            </SelectionButton>
           </ButtonsContainer>
 
-          <ResultsContainer>
-            <AccordionContainer>
-              {selected && disciplinesTests.length > 0 ? (
-                disciplinesTests.map((term, index) => (
-                  <Accordion key={`P${index}`} onClick={() => handleAccordionSelection(`P${index}`)}>
-                    <div>
-                      <h1>{term.number} Período</h1>
-                      <img src={activeAccordions.includes(`P${index}`) ? UpChevron : DownChevron} alt="selection" />
-                    </div>
-                    {term.disciplines.map((discipline, i) => (
-                      <InnerAccordion active={activeAccordions.includes(`P${index}`)} key={i} onClick={(e)=>{handleInnerAccordionSelection(`D${discipline.name+index}`,e)}}>
-                        <div>
-                          <h2>{discipline.name}</h2>
-                          <img src={activeInnerAccordions.includes(`D${discipline.name+index}`) ? UpChevron : DownChevron} alt="selection" />
-                        </div>
-
-                        {discipline.teachersDisciplines.map((tests, e) => (
-                          <AccordionPanel active={activeInnerAccordions.includes(`D${discipline.name+index}`)} key={e}>
-                            {tests.tests.map((test, j) => (
-                              <span key={j}>
-                                <p>{test.categories.name}</p>
-                                <span>{test.name} </span>
-                                <span>({tests.teachers.name})</span>
-                              </span>
-                            ))}
-                          </AccordionPanel>
-                        ))}
-                      </InnerAccordion>
-                    ))}
-                  </Accordion>
-                ))
-              ) : !selected && teachersTests.length > 0 ? (
-
-               teachersTests.map((teacher) => (
-                  <Accordion key={teacher.teacher} onClick={()=>{handleAccordionSelection(teacher.teacher)}} >
-                    <div>
-                      <h1>{teacher.teacher}</h1>
-                      <img src={activeAccordions.includes(teacher.teacher)? UpChevron : DownChevron} alt="selection" />
-                    </div>
-                     {teacher.teacherTests.map(test => (
- 
-                        <AccordionPanel active={activeAccordions.includes(teacher.teacher)} key={test.id}>
-                        <p>{test.category}</p>
-                          <div>
-                            <span>{test.test} </span>
-                            <span>
-                              ({test.discipline})
-                            </span>
-                          </div>
-
-                      </AccordionPanel>
-                     ))}
-
-                  </Accordion>
-                ))
-              ) : (
-                <EmptyMessage>Nenhuma prova no sistema!</EmptyMessage>
-              )}
-            </AccordionContainer>
-          </ResultsContainer>
+          {createTest ? (
+            <CreateTest />
+          ) : teachers ? (
+            <Teachers />
+          ) : (
+            <Disciplines />
+          )}
         </MainSection>
       </PageContainer>
     </>

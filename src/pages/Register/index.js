@@ -4,7 +4,7 @@ import {
   Input,
   Button,
 
-} from "../../components/FormComponents";
+} from "../../components/AuthFormComponents";
 import {
   Header,
   ThinButton,

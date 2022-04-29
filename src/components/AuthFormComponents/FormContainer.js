@@ -5,18 +5,16 @@ background-color: rgb(255, 203, 49);
 font-family: "Poppins";
 font-size: 15px;
 font-weight: 400;
-height: 550px;
+height: ${(props) => (props.page === "create" ? "450px" : "550px")};
 line-height: 22.5px;
-padding-bottom: 40px;
-padding-left: 32px;
-padding-right: 32px;
-padding-top: 40px;
-width: 400px;
+padding: ${(props) => (props.page === "create" ? "10px 32px" : "40px 32px")};
+width: ${(props) => (props.page === "create" ? "55%" : "400px")};
 display: flex;
 align-items: center;
 justify-content: space-around;
 flex-direction: column;
-margin-top: 100px;
+margin-top: ${(props) => (props.page === "create" ? "0" : "100px")};
+
 
 h1{
      color: #000;

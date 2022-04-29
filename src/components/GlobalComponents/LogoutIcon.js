@@ -20,7 +20,7 @@ export default function LogoutIcon() {
 }
 
 const Logout = styled.div`
-  position: absolute;
+  position: fixed;
   top: 25px;
   right: 25px;
   cursor: pointer;

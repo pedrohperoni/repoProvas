@@ -1,5 +1,5 @@
 import SearchBar from "./SearchBar.js";
-import SearchBarContainer from "./SearchbarContainer.js";
+import HomeHeaderContainer from "./HomeHeaderContainer.js";
 import MainSection from "./MainSection.js";
 import ButtonsContainer from "./ButtonsContainer.js";
 import SelectionButton from "./SelectionButton.js";
@@ -12,7 +12,7 @@ import EmptyMessage from "./EmptyMessage.js";
 
 export {
   SearchBar,
-  SearchBarContainer,
+  HomeHeaderContainer,
   MainSection,
   ButtonsContainer,
   SelectionButton,

@@ -3,7 +3,7 @@ import {
   Form,
   Input,
   Button,
-} from "../../components/FormComponents";
+} from "../../components/AuthFormComponents";
 
 import {
   Header,

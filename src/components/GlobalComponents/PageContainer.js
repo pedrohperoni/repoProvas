@@ -5,7 +5,7 @@ const PageContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  background-color: #000000;
+  background-color:#f7f7f7;
   color: #fff;
   padding: 100px 0;
 `;

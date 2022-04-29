@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const EmptyMessage = styled.p`
-color: #000;
+color: #fff;
 height: 150px;
 display: flex;
 align-items: center;
