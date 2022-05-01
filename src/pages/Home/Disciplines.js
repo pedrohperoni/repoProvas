@@ -4,7 +4,7 @@ import {
   InnerAccordion,
   EmptyMessage,
   ResultsContainer,
-  AccordionContainer
+  AccordionContainer,
 } from "../../components/HomeComponents/index.js";
 import UpChevron from "../../assets/chevron-up-outline.svg";
 import DownChevron from "../../assets/chevron-down-outline.svg";
@@ -27,7 +27,7 @@ export default function Disciplines(search) {
     DisciplinesPromise.catch((error) => {
       console.log(error);
     });
-    console.log(search)
+    console.log(search);
   }, []);
 
   function handleAccordionSelection(id) {
@@ -53,67 +53,88 @@ export default function Disciplines(search) {
     setActiveInnerAccordions([...list, id]);
   }
 
+  function handleTestClick(e, test) {
+    e.stopPropagation();
+    const promise = api.addViewsByTestId(test.id);
+    promise.catch((error) => console.log(error));
+    window.open(`${test.pdfUrl}`, "_blank");
+  }
+
   return (
     <>
-          <ResultsContainer>
+      <ResultsContainer>
         <AccordionContainer>
-      {disciplinesTests.length > 0 ? disciplinesTests.map((term, index) => (
-        <Accordion
-          key={`P${index}`}
-          onClick={() => handleAccordionSelection(`P${index}`)}
-        >
-          <div>
-            <h1>{term.number} Período</h1>
-            <img
-              src={
-                activeAccordions.includes(`P${index}`) ? UpChevron : DownChevron
-              }
-              alt="selection"
-            />
-          </div>
-          {term.disciplines.map((discipline, i) => (
-            <InnerAccordion
-              active={activeAccordions.includes(`P${index}`)}
-              key={i}
-              onClick={(e) => {
-                handleInnerAccordionSelection(`D${discipline.name + index}`, e);
-              }}
-            >
-              <div>
-                <h2>{discipline.name}</h2>
-                <img
-                  src={
-                    activeInnerAccordions.includes(
-                      `D${discipline.name + index}`
-                    )
-                      ? UpChevron
-                      : DownChevron
-                  }
-                  alt="selection"
-                />
-              </div>
+          {disciplinesTests.length > 0 ? (
+            disciplinesTests.map((term, index) => (
+              <Accordion
+                key={`P${index}`}
+                onClick={() => handleAccordionSelection(`P${index}`)}
+              >
+                <div>
+                  <h1>{term.number} Período</h1>
+                  <img
+                    src={
+                      activeAccordions.includes(`P${index}`)
+                        ? UpChevron
+                        : DownChevron
+                    }
+                    alt="selection"
+                  />
+                </div>
+                {term.disciplines.map((discipline, i) => (
+                  <InnerAccordion
+                    active={activeAccordions.includes(`P${index}`)}
+                    key={i}
+                    onClick={(e) => {
+                      handleInnerAccordionSelection(
+                        `D${discipline.name + index}`,
+                        e
+                      );
+                    }}
+                  >
+                    <div>
+                      <h2>{discipline.name}</h2>
+                      <img
+                        src={
+                          activeInnerAccordions.includes(
+                            `D${discipline.name + index}`
+                          )
+                            ? UpChevron
+                            : DownChevron
+                        }
+                        alt="selection"
+                      />
+                    </div>
 
-              {discipline.teachersDisciplines.map((tests, e) => (
-                <AccordionPanel
-                  active={activeInnerAccordions.includes(
-                    `D${discipline.name + index}`
-                  )}
-                  key={e}
-                >
-                  {tests.tests.map((test, j) => (
-                    <span key={j}>
-                      <p>{test.categories.name}</p>
-                      <span>{test.name} </span>
-                      <span>({tests.teachers.name})</span>
-                    </span>
-                  ))}
-                </AccordionPanel>
-              ))}
-            </InnerAccordion>
-          ))}
-        </Accordion>
-      )):<EmptyMessage>Nenhuma prova no sistema!</EmptyMessage>}
-      </AccordionContainer>
+                    {discipline.teachersDisciplines.map((tests, e) => (
+                      <AccordionPanel
+                        active={activeInnerAccordions.includes(
+                          `D${discipline.name + index}`
+                        )}
+                        key={e}
+                      >
+                        {tests.tests.map((test, j) => (
+                          <span
+                            key={j}
+                            onClick={(e) => {
+                              handleTestClick(e, test);
+                            }}
+                          >
+                            <p>{test.categories.name}</p>
+                            <span>{test.name} </span>
+                            <span>({tests.teachers.name})</span>
+                          </span>
+                        ))}
+                      </AccordionPanel>
+                    ))}
+                  </InnerAccordion>
+                ))}
+              </Accordion>
+            ))
+          ) : (
+            <EmptyMessage>Nenhuma prova no sistema!</EmptyMessage>
+          )}
+        </AccordionContainer>
       </ResultsContainer>
     </>
   );

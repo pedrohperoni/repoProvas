@@ -32,12 +32,18 @@ async function login(data) {
    return posts
 }
 
+async function addViewsByTestId(id){
+   const views = await axios.put(`${BASE_URL}/tests/views/${id}`)
+   return views
+}
+
 
 const api = {
 	createUser,
 	login,
    getTestsByDiscipline,
-   getTestsByTeacher
+   getTestsByTeacher,
+   addViewsByTestId
 } 
 
 export default api;

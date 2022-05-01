@@ -38,6 +38,13 @@ export default function Teachers() {
     setActiveAccordions([...list, id]);
   }
 
+  function handleTestClick(e, test) {
+   e.stopPropagation();
+   const promise = api.addViewsByTestId(test.id);
+   promise.catch((error) => console.log(error));
+   window.open(`${test.pdfUrl}`, "_blank").focus();
+ }
+
   return (
     <>
       <ResultsContainer>
@@ -65,6 +72,7 @@ export default function Teachers() {
                   <AccordionPanel
                     active={activeAccordions.includes(teacher.teacher)}
                     key={test.id}
+                    onClick={(e)=>handleTestClick(e,test)}
                   >
                     <p>{test.category}</p>
                     <div>
