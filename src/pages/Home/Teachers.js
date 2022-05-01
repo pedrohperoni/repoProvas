@@ -79,6 +79,7 @@ export default function Teachers() {
                       <span>{test.test} </span>
                       <span>({test.discipline})</span>
                     </div>
+                    <span>views: <strong>{test.views}</strong></span>
                   </AccordionPanel>
                 ))}
               </Accordion>

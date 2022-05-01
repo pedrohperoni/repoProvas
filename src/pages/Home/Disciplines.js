@@ -60,6 +60,7 @@ export default function Disciplines(search) {
     window.open(`${test.pdfUrl}`, "_blank");
   }
 
+
   return (
     <>
       <ResultsContainer>
@@ -114,6 +115,7 @@ export default function Disciplines(search) {
                         key={e}
                       >
                         {tests.tests.map((test, j) => (
+                           <>
                           <span
                             key={j}
                             onClick={(e) => {
@@ -124,6 +126,8 @@ export default function Disciplines(search) {
                             <span>{test.name} </span>
                             <span>({tests.teachers.name})</span>
                           </span>
+                          <span>views: <strong>{test.views}</strong></span>
+                          </>
                         ))}
                       </AccordionPanel>
                     ))}
