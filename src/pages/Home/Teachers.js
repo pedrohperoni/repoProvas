@@ -22,7 +22,8 @@ export default function Teachers(searchQuery) {
     TeachersPromise.then((response) => {
       setTeachersTests(response.data);
       if (searchQuery.searchQuery.length !== 0) {
-        filterBySearchQuery();
+         const testsArray = response.data
+        filterBySearchQuery(testsArray);
       }
     });
     TeachersPromise.catch((error) => {
@@ -48,9 +49,9 @@ export default function Teachers(searchQuery) {
     window.open(`${test.pdfUrl}`, "_blank").focus();
   }
 
-  function filterBySearchQuery() {
+  function filterBySearchQuery(testsArray) {
     const query = searchQuery.searchQuery.toLowerCase();
-    const array = [...teachersTests];
+    const array = [...testsArray];
     const filteredArray = array.filter((entry) =>
       entry.teacher.toLowerCase().includes(query)
     );
