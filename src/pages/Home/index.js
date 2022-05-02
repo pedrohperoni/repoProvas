@@ -48,8 +48,6 @@ export default function Home() {
     setCreateTest(false);
   }
 
-
-
   return (
     <>
       <PageContainer>
@@ -60,7 +58,7 @@ export default function Home() {
             <p>Adicione uma prova</p>
           ) : (
             <>
-              <SearchBar type="search" placeholder="pesquise por disciplina" onChange={(e) => setSearch(e.target.value)}></SearchBar>
+              <SearchBar type="search" placeholder={`pesquise por ${teachers? "instrutores" : "disciplinas"}`} onChange={(e) => setSearch(e.target.value)}></SearchBar>
               <img src={search===""? SearchIconDisabled : SearchIcon} alt="Search" onClick={()=>{console.log(search)}} />
             </>
           )}
@@ -96,9 +94,9 @@ export default function Home() {
           {createTest ? (
             <CreateTest />
           ) : teachers ? (
-            <Teachers />
+            <Teachers searchQuery={search} />
           ) : (
-            <Disciplines search={search} />
+            <Disciplines searchQuery={search} />
           )}
         </MainSection>
       </PageContainer>

@@ -12,7 +12,7 @@ import UpChevron from "../../assets/chevron-up-outline.svg";
 import DownChevron from "../../assets/chevron-down-outline.svg";
 import useAuth from "../../hooks/useAuth.js";
 
-export default function Teachers() {
+export default function Teachers(searchQuery) {
   const { auth } = useAuth();
   const [teachersTests, setTeachersTests] = useState([]);
   const [activeAccordions, setActiveAccordions] = useState([]);
@@ -21,11 +21,16 @@ export default function Teachers() {
     const TeachersPromise = api.getTestsByTeacher(auth?.token);
     TeachersPromise.then((response) => {
       setTeachersTests(response.data);
+      if(searchQuery.searchQuery.length !== 0){
+         filterBySearchQuery()
+      }
+
     });
     TeachersPromise.catch((error) => {
       console.log(error);
     });
-  }, []);
+  }, [searchQuery]);
+
 
   function handleAccordionSelection(id) {
     const list = [...activeAccordions];
@@ -43,6 +48,13 @@ export default function Teachers() {
    const promise = api.addViewsByTestId(test.id);
    promise.catch((error) => console.log(error));
    window.open(`${test.pdfUrl}`, "_blank").focus();
+ }
+
+ function filterBySearchQuery() {
+   const query = searchQuery.searchQuery.toLowerCase()
+   const array = [...teachersTests]
+   const filteredArray = array.filter(entry => entry.teacher.toLowerCase().includes(query))
+   setTeachersTests(filteredArray)
  }
 
   return (
