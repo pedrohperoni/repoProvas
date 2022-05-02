@@ -7,7 +7,6 @@ import {
 } from "../../components/FormComponents";
 import api from "../../services/api.js";
 import useAuth from "../../hooks/useAuth.js";
-import {useNavigate} from "react-router-dom"
 
 export default function CreateTest() {
   const [title, setTitle] = useState("");
@@ -22,7 +21,7 @@ export default function CreateTest() {
 
   const [enableSubmit, setEnableSubmit] = useState(false);
   const { auth } = useAuth();
-  const navigate = useNavigate();
+
 
 
   useEffect(() => {
