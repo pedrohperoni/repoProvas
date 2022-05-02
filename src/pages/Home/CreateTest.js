@@ -7,6 +7,7 @@ import {
 } from "../../components/FormComponents";
 import api from "../../services/api.js";
 import useAuth from "../../hooks/useAuth.js";
+import {useNavigate} from "react-router-dom"
 
 export default function CreateTest() {
   const [title, setTitle] = useState("");
@@ -21,6 +22,8 @@ export default function CreateTest() {
 
   const [enableSubmit, setEnableSubmit] = useState(false);
   const { auth } = useAuth();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const categoriesPromise = api.getCategories();
@@ -79,6 +82,7 @@ export default function CreateTest() {
    const createTestPromise = api.createTest(test, auth?.token)
    createTestPromise.then((response) => {
       console.log(response)
+      window.location.reload(false)
    })
    createTestPromise.catch((error) => console.log(error));
   
