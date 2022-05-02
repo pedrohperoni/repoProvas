@@ -75,11 +75,11 @@ export default function Teachers() {
                     onClick={(e)=>handleTestClick(e,test)}
                   >
                     <p>{test.category}</p>
-                    <div>
-                      <span>{test.test} </span>
-                      <span>({test.discipline})</span>
-                    </div>
-                    <span>views: <strong>{test.views}</strong></span>
+                    <section>
+                      <span>{test.test} ({test.discipline})</span>
+                      <span>views: <strong>{test.views}</strong></span>
+                    </section>
+                   
                   </AccordionPanel>
                 ))}
               </Accordion>

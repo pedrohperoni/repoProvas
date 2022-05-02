@@ -87,6 +87,7 @@ export default function Home() {
               onClick={() => {
                 setCreateTest(true);
               }}
+              selected={createTest}
             >
               Adicionar
             </SelectionButton>

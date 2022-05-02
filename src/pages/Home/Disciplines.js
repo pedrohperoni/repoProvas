@@ -55,11 +55,11 @@ export default function Disciplines(search) {
 
   function handleTestClick(e, test) {
     e.stopPropagation();
+    console.log(auth.token);
     const promise = api.addViewsByTestId(test.id);
     promise.catch((error) => console.log(error));
     window.open(`${test.pdfUrl}`, "_blank");
   }
-
 
   return (
     <>
@@ -115,19 +115,20 @@ export default function Disciplines(search) {
                         key={e}
                       >
                         {tests.tests.map((test, j) => (
-                           <>
-                          <span
+                          <div
                             key={j}
                             onClick={(e) => {
                               handleTestClick(e, test);
                             }}
                           >
-                            <p>{test.categories.name}</p>
-                            <span>{test.name} </span>
-                            <span>({tests.teachers.name})</span>
-                          </span>
-                          <span>views: <strong>{test.views}</strong></span>
-                          </>
+                            <span>
+                              <p>{test.categories.name}</p>
+                              <section></section>
+                              <span>{test.name} ({tests.teachers.name}) </span>
+                              
+                            </span>
+                            <span>views: <strong>{test.views}</strong></span>
+                          </div>
                         ))}
                       </AccordionPanel>
                     ))}
