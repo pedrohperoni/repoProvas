@@ -3,7 +3,7 @@ import {
   AccordionPanel,
   EmptyMessage,
   ResultsContainer,
-  AccordionContainer
+  AccordionContainer,
 } from "../../components/HomeComponents/index.js";
 
 import { useEffect, useState } from "react";
@@ -21,16 +21,14 @@ export default function Teachers(searchQuery) {
     const TeachersPromise = api.getTestsByTeacher(auth?.token);
     TeachersPromise.then((response) => {
       setTeachersTests(response.data);
-      if(searchQuery.searchQuery.length !== 0){
-         filterBySearchQuery()
+      if (searchQuery.searchQuery.length !== 0) {
+        filterBySearchQuery();
       }
-
     });
     TeachersPromise.catch((error) => {
       console.log(error);
     });
   }, [searchQuery]);
-
 
   function handleAccordionSelection(id) {
     const list = [...activeAccordions];
@@ -44,18 +42,20 @@ export default function Teachers(searchQuery) {
   }
 
   function handleTestClick(e, test) {
-   e.stopPropagation();
-   const promise = api.addViewsByTestId(test.id);
-   promise.catch((error) => console.log(error));
-   window.open(`${test.pdfUrl}`, "_blank").focus();
- }
+    e.stopPropagation();
+    const promise = api.addViewsByTestId(test.id);
+    promise.catch((error) => console.log(error));
+    window.open(`${test.pdfUrl}`, "_blank").focus();
+  }
 
- function filterBySearchQuery() {
-   const query = searchQuery.searchQuery.toLowerCase()
-   const array = [...teachersTests]
-   const filteredArray = array.filter(entry => entry.teacher.toLowerCase().includes(query))
-   setTeachersTests(filteredArray)
- }
+  function filterBySearchQuery() {
+    const query = searchQuery.searchQuery.toLowerCase();
+    const array = [...teachersTests];
+    const filteredArray = array.filter((entry) =>
+      entry.teacher.toLowerCase().includes(query)
+    );
+    setTeachersTests(filteredArray);
+  }
 
   return (
     <>
@@ -84,14 +84,17 @@ export default function Teachers(searchQuery) {
                   <AccordionPanel
                     active={activeAccordions.includes(teacher.teacher)}
                     key={test.id}
-                    onClick={(e)=>handleTestClick(e,test)}
+                    onClick={(e) => handleTestClick(e, test)}
                   >
                     <p>{test.category}</p>
                     <section>
-                      <span>{test.test} ({test.discipline})</span>
-                      <span>views: <strong>{test.views}</strong></span>
+                      <span>
+                        {test.test} ({test.discipline})
+                      </span>
+                      <span>
+                        views: <strong>{test.views}</strong>
+                      </span>
                     </section>
-                   
                   </AccordionPanel>
                 ))}
               </Accordion>

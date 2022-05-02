@@ -40,12 +40,14 @@ export default function Home() {
     setDisciplines(true);
     setTeachers(false);
     setCreateTest(false);
+    setSearch("");
   }
 
   function handleTeachersButton() {
     setDisciplines(false);
     setTeachers(true);
     setCreateTest(false);
+    setSearch("");
   }
 
   return (
@@ -59,7 +61,7 @@ export default function Home() {
           ) : (
             <>
               <SearchBar type="search" placeholder={`pesquise por ${teachers? "instrutores" : "disciplinas"}`} onChange={(e) => setSearch(e.target.value)}></SearchBar>
-              <img src={search===""? SearchIconDisabled : SearchIcon} alt="Search" onClick={()=>{console.log(search)}} />
+              <img src={search===""? SearchIconDisabled : SearchIcon} alt="Search" />
             </>
           )}
         </HomeHeaderContainer>

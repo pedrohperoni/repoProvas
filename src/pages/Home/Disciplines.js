@@ -23,11 +23,15 @@ export default function Disciplines(searchQuery) {
     const DisciplinesPromise = api.getTestsByDiscipline(auth?.token);
     DisciplinesPromise.then((response) => {
       setDisciplinesTests(response.data);
+      if (searchQuery.searchQuery.length !== 0) {
+        const testsArray = response.data
+        filterBySearchQuery(testsArray);
+      }
     });
     DisciplinesPromise.catch((error) => {
       console.log(error);
     });
-  }, []);
+  }, [searchQuery]);
 
   function handleAccordionSelection(id) {
     const list = [...activeAccordions];
@@ -58,6 +62,20 @@ export default function Disciplines(searchQuery) {
     const promise = api.addViewsByTestId(test.id);
     promise.catch((error) => console.log(error));
     window.open(`${test.pdfUrl}`, "_blank");
+  }
+
+  function filterBySearchQuery(testsArray) {
+    const query = searchQuery.searchQuery.toLowerCase();
+    const array = [...testsArray];
+    const filteredArray = array.map((entry) =>
+      entry.disciplines.filter((discipline) =>
+        discipline.name.toLowerCase().includes(query)
+      )
+    );
+    for (let i = 0; i < array.length; i++) {
+      array[i].disciplines = filteredArray[i];
+    }
+    setDisciplinesTests(array);
   }
 
   return (
@@ -123,10 +141,13 @@ export default function Disciplines(searchQuery) {
                             <span>
                               <p>{test.categories.name}</p>
                               <section></section>
-                              <span>{test.name} ({tests.teachers.name}) </span>
-                              
+                              <span>
+                                {test.name} ({tests.teachers.name}){" "}
+                              </span>
                             </span>
-                            <span>views: <strong>{test.views}</strong></span>
+                            <span>
+                              views: <strong>{test.views}</strong>
+                            </span>
                           </div>
                         ))}
                       </AccordionPanel>
