@@ -97,7 +97,7 @@ export default function CreateTest() {
           onChange={(e) => setTitle(e.target.value)}
         />
         <Input
-          placeholder="PDF da prova"
+          placeholder="PDF da prova (url)"
           onChange={(e) => setPdf(e.target.value)}
         />
 
