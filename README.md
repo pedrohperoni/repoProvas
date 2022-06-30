@@ -10,7 +10,7 @@
 <p align="center"><a href="https://savorpoper.vercel.app/">Live App </a></p></h2>
 
 ## About
-<p>RepoProvas is an archive where users can share old tests from different disciplines and teachers</p>
+<p>Repoprovas is a platform where users can share their old tests, creating an archive to help new students</p>
   
 
 ## Project Status
